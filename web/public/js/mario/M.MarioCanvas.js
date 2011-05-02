@@ -69,7 +69,7 @@ M.MarioCanvas = function(bgWidth, bgHeight, fgWidth, fgHeight)
 		fgContext.clearRect(0, 0, fgWidth, fgHeight);
 		fgContext.beginPath();
 		var x1 = (fgWidth - rectWidth)/2;
-		var y1 = y - rectHeight/2;
+		var y1 = fgHeight - y - rectHeight/2;
 		fgContext.strokeRect(x1, y1, rectWidth, rectHeight);
 		fgContext.closePath();
 	}
