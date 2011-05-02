@@ -38,7 +38,6 @@ M.MarioCanvas = function(bgWidth, bgHeight, fgWidth, fgHeight)
 
 	var setBgPosition = function()
 	{
-		//background.css('top', y);
 		background.css('left', -x);
 	}
 
