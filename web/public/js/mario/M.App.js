@@ -3,9 +3,9 @@ M.App = function()
 {
 	var canvas = new M.MarioCanvas(500, 200, 200, 200);
 
-	$(document).keydown(function(e)
+	window.addEvent('keydown', function(e)
 	{
-		switch(e.keyCode)
+		switch(e.code)
 		{
 			case M.KeyCodes.UP:
 				canvas.move(0, 5);

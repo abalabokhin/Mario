@@ -1,27 +1,33 @@
 M = window.M || {};
 M.MarioCanvas = function(bgWidth, bgHeight, fgWidth, fgHeight)
 {
-	var appDiv = $('<div/>');
-	var background= $('<canvas width="' + bgWidth + '" height="' + bgHeight + '"/>');
-	var foreground= $('<canvas width="' + fgWidth + '" height="' + fgHeight + '"/>');
+	var appDiv = new Element('div');
+	var background= new Element('canvas', {
+		width: bgWidth,
+		height: bgHeight
+	});
+	var foreground= new Element('canvas', {
+		width: fgWidth,
+		height: fgHeight
+	});
 	var x = 0;
 	var y = 0;
 
 	var init = function()
 	{
-		appDiv.appendTo('body');
-		appDiv.css('position', 'relative');
-		appDiv.css('width', fgWidth);
-		appDiv.css('height', fgHeight);
-		appDiv.css('overflow', 'hidden');
+		appDiv.inject(document.body);
+		appDiv.setStyle('position', 'relative');
+		appDiv.setStyle('width', fgWidth);
+		appDiv.setStyle('height', fgHeight);
+		appDiv.setStyle('overflow', 'hidden');
 
-		background.appendTo(appDiv);
-		background.css('position', 'absolute');
+		background.inject(appDiv);
+		background.setStyle('position', 'absolute');
 
-		foreground.appendTo(appDiv);
-		foreground.css('position', 'absolute');
-		foreground.css('top', 0);
-		foreground.css('left', 0);
+		foreground.inject(appDiv);
+		foreground.setStyle('position', 'absolute');
+		foreground.setStyle('top', 0);
+		foreground.setStyle('left', 0);
 
 		redrawBackground();
 		setBgPosition();
@@ -38,12 +44,12 @@ M.MarioCanvas = function(bgWidth, bgHeight, fgWidth, fgHeight)
 
 	var setBgPosition = function()
 	{
-		background.css('left', -x);
+		background.setStyle('left', -x);
 	}
 
 	var redrawBackground = function()
 	{
-		var bgContext = background[0].getContext('2d');
+		var bgContext = background.getContext('2d');
 
 		bgContext.clearRect(0, 0, bgWidth, bgHeight);
 		bgContext.beginPath();
@@ -61,7 +67,7 @@ M.MarioCanvas = function(bgWidth, bgHeight, fgWidth, fgHeight)
 
 	var redrawForeground = function()
 	{
-		var fgContext = foreground[0].getContext('2d');
+		var fgContext = foreground.getContext('2d');
 		var rectWidth = 20;
 		var rectHeight = 20;
 
