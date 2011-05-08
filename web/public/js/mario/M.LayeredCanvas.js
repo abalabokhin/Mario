@@ -1,5 +1,57 @@
 M = window.M || {};
-M.MarioCanvas = function(bgWidth, bgHeight, fgWidth, fgHeight)
+var M.LayeredCanvas = new Class({
+    Implements : [Options,Events],
+    
+    options : {
+        width : 400,
+        height : 400,
+        parent : document.body
+    },
+
+    layers = {},
+    appDiv = {},
+
+    initialize : function (options) {
+        this.SetOptions(options);
+        var appDiv = new Element('div', {
+            styles: {
+                position: 'relative',
+                width: options.width,
+                height: options.height,
+                overflow: 'hidden'
+            }
+        });
+        appDiv.inject(parent);
+        return this;
+    },
+
+    addLayer : function (id, width, height) {
+        if (!width)
+            width = this.width);
+        if (!height)
+            height = this.height);
+
+        layer = new Element('canvas', {
+            id: id,
+            width: width,
+            height: height,
+            styles: {
+                position: 'absolute'
+            }
+        };
+        layer.inject(appDiv);
+        layers[id] = layer;
+        return layer;
+    },
+
+    move : function (id, deltaX, deltaY) {
+        layers[id].setStyle('left', layers[id].getStyle('left') - deltaX);
+        layers[id].setStyle('top', layers[id].getStyle('top') - deltaY);
+    }
+
+});
+
+/*M.MarioCanvas = function(bgWidth, bgHeight, fgWidth, fgHeight)
 {
 	var appDiv = new Element('div');
 	var background= new Element('canvas', {
@@ -80,4 +132,4 @@ M.MarioCanvas = function(bgWidth, bgHeight, fgWidth, fgHeight)
 	}
 
 	init();
-}
+}*/

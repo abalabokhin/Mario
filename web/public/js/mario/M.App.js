@@ -1,7 +1,7 @@
 M = window.M || {};
 M.App = function()
 {
-	var canvas = new M.MarioCanvas(500, 200, 200, 200);
+	var canvas = new M.LayeredCanvas({height:500, weight : 500});
 
 	window.addEvent('keydown', function(e)
 	{
