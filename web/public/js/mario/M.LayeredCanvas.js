@@ -1,5 +1,5 @@
 M = window.M || {};
-var M.LayeredCanvas = new Class({
+M.LayeredCanvas = new Class({
     Implements : [Options,Events],
     
     options : {
@@ -8,11 +8,11 @@ var M.LayeredCanvas = new Class({
         parent : document.body
     },
 
-    layers = {},
-    appDiv = {},
+    layers : {},
+    appDiv : {},
 
     initialize : function (options) {
-        this.SetOptions(options);
+        this.setOptions(options);
         var appDiv = new Element('div', {
             styles: {
                 position: 'relative',
@@ -27,9 +27,9 @@ var M.LayeredCanvas = new Class({
 
     addLayer : function (id, width, height) {
         if (!width)
-            width = this.width);
+            width = this.width;
         if (!height)
-            height = this.height);
+            height = this.height;
 
         layer = new Element('canvas', {
             id: id,
@@ -38,7 +38,7 @@ var M.LayeredCanvas = new Class({
             styles: {
                 position: 'absolute'
             }
-        };
+        });
         layer.inject(appDiv);
         layers[id] = layer;
         return layer;
