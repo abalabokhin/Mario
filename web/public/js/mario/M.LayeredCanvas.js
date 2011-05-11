@@ -5,7 +5,7 @@ M.LayeredCanvas = new Class({
     options : {
         width : 400,
         height : 400,
-        parent : document.body
+        parent : $(document.body)
     },
 
     layers : {},
@@ -13,23 +13,24 @@ M.LayeredCanvas = new Class({
 
     initialize : function (options) {
         this.setOptions(options);
-        var appDiv = new Element('div', {
+        this.appDiv = new Element('div', {
             styles: {
                 position: 'relative',
-                width: options.width,
-                height: options.height,
+                width: this.options.width,
+                height: this.options.height,
                 overflow: 'hidden'
             }
         });
-        appDiv.inject(parent);
+        //appDiv.inject(parent);
+        this.appDiv.inject(this.options.parent/*$(document.body)*/);
         return this;
     },
 
     addLayer : function (id, width, height) {
         if (!width)
-            width = this.width;
+            width = this.options.width;
         if (!height)
-            height = this.height;
+            height = this.options.height;
 
         layer = new Element('canvas', {
             id: id,
@@ -39,14 +40,14 @@ M.LayeredCanvas = new Class({
                 position: 'absolute'
             }
         });
-        layer.inject(appDiv);
-        layers[id] = layer;
+        layer.inject(this.appDiv);
+        this.layers[id] = layer;
         return layer;
     },
 
     move : function (id, deltaX, deltaY) {
-        layers[id].setStyle('left', layers[id].getStyle('left') - deltaX);
-        layers[id].setStyle('top', layers[id].getStyle('top') - deltaY);
+        this.layers[id].setStyle('left', this.layers[id].getStyle('left').toInt() - deltaX);
+        this.layers[id].setStyle('top', this.layers[id].getStyle('top').toInt() - deltaY);
     }
 
 });
