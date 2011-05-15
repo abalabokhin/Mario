@@ -19,28 +19,21 @@ M.LayeredCanvas = new Class({
         return this;
     },
 
-    addLayer : function (id, width, height) {
+    addLayer : function (id, width, height, frameRate) {
         if (!width)
             width = this.options.width;
         if (!height)
             height = this.options.height;
 
-        layer = new Element('canvas', {
-            id: id,
-            width: width,
-            height: height,
-            styles: {
-                position: 'absolute'
-            }
-        });
+		var layer = new M.Display.Canvas(id, width, height, frameRate);
         layer.inject(this.appDiv);
         this.layers[id] = layer;
         return layer;
     },
 
     move : function (id, deltaX, deltaY) {
-        this.layers[id].setStyle('left', this.layers[id].getStyle('left').toInt() - deltaX);
-        this.layers[id].setStyle('top', this.layers[id].getStyle('top').toInt() - deltaY);
+		this.layers[id].setX(this.layers[id].getX() - deltaX);
+		this.layers[id].setY(this.layers[id].getY() - deltaY);
     }
 
 });
