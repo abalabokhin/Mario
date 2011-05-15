@@ -5,8 +5,7 @@ M.App = function()
 
 	var bgWidth = 400;
 	var bgHeight = 400;
-	var background = canvas.addLayer("background", bgWidth, bgHeight, 100);
-	background.addChild(new M.Display.Object());
+	var background = canvas.addLayer("background", bgWidth, bgHeight);
 
 	var bgContext = background.getContext();
 	bgContext.clearRect(0, 0, bgWidth, bgHeight);
@@ -24,29 +23,23 @@ M.App = function()
 
 	var fgWidth = 400;
 	var fgHeight = 400;
-	var foreground = canvas.addLayer("frground", fgWidth, fgHeight);
+	var foreground = canvas.addLayer("frground", fgWidth, fgHeight, 70);
 
-	var fgContext = foreground.getContext('2d');
-	var rectWidth = 20;
-	var rectHeight = 20;
+	var mario = new M.Display.Object();
+	mario.x = fgWidth/2;
+	mario.y = fgHeight/2;
 
-	fgContext.clearRect(0, 0, fgWidth, fgHeight);
-	fgContext.beginPath();
-	var x1 = (fgWidth - rectWidth)/2;
-	var y1 = (fgHeight - rectHeight)/2;
-	fgContext.strokeRect(x1, y1, rectWidth, rectHeight);
-	fgContext.closePath();
-
+	foreground.addChild(mario);
 
 	$(document).addEvent('keydown', function(e)
 	{
 		switch(e.code)
 		{
 			case M.KeyCodes.UP:
-				canvas.move("background", 0, 5);
+				mario.y -= 5;
 				break;
 			case M.KeyCodes.DOWN:
-				canvas.move("background", 0, -5);
+				mario.y += 5;
 				break;
 			case M.KeyCodes.LEFT:
 				canvas.move("background", -5, 0);

@@ -47,11 +47,21 @@ M.Display.Object = new Class({
 
 		var context = this.getContext();
 		context.beginPath();
-		context.moveTo(0,0);
-		context.lineTo(10, 6);
-		context.lineTo(10, -6);
-		context.lineTo(0, 0);
+		this.moveTo(0,0);
+		this.lineTo(10, 6);
+		this.lineTo(10, -6);
+		this.lineTo(0, 0);
 		context.stroke();
 		context.closePath();
+	},
+
+	moveTo: function(x, y)
+	{
+		this.getContext().moveTo(this.x + x, this.y + y);
+	},
+
+	lineTo: function(x, y)
+	{
+		this.getContext().lineTo(this.x + x, this.y + y);
 	}
 });

@@ -3,6 +3,7 @@ M.Helper.ns("M.Display");
 M.Display.Canvas = new Class({
 	initialize: function(id, width, height, frameRate)
 	{
+		var scope = this;
 		var el = new Element('canvas',  {
 			id: id,
 			width: width,
@@ -16,6 +17,7 @@ M.Display.Canvas = new Class({
 
 		var draw = function()
 		{
+			scope.getContext().clearRect(0, 0, width, height);
 			for(var i = 0; i < children.length; i++)
 			{
 				children[i].draw();
@@ -58,7 +60,8 @@ M.Display.Canvas = new Class({
 			clearInterval(interval);
 		}
 
-		interval = setInterval(draw, frameRate);
+		if(frameRate)
+			interval = setInterval(draw, frameRate);
 	},
 
 	inject : function(value)
