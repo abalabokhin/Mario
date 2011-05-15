@@ -23,7 +23,7 @@ M.App = function()
 
 	var fgWidth = 400;
 	var fgHeight = 400;
-	var foreground = canvas.addLayer("frground", fgWidth, fgHeight, 70);
+	var foreground = canvas.addLayer("foreground", fgWidth, fgHeight, 70);
 
 	var mario = new M.Display.Object();
 	mario.x = fgWidth/2;
