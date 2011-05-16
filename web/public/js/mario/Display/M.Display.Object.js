@@ -63,5 +63,10 @@ M.Display.Object = new Class({
 	lineTo: function(x, y)
 	{
 		this.getContext().lineTo(this.x + x, this.y + y);
+	},
+
+	rectIn: function(x, y, w, h)
+	{
+		 this.getContext().fillRect(this.x + x, this.y + y, w, h);
 	}
 });
