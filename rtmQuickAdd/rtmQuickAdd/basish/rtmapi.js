@@ -1,45 +1,98 @@
 RtmAPI = {
-
-	callMethod: function(params, callback, scope)
+	
+	testLogin: function(frob, token, callback)
 	{
-		var url = this.RTM_URL_PREFIX + this.RTM_REST;
-		var paramsString = this.getParamsString(params);
-		var handler = function(data, textStatus, response)
+		var scope = this;
+		scope.callMethod({
+				method:"rtm.test.login", 
+				frob:frob,
+				auth_token: token
+			}, 
+			function(param)
+			{
+				console.log(param);
+				callback(param.rsp.user.username);
+			});
+	},
+	
+	getToken: function(callback, frob)
+	{
+		var scope = this;
+		console.log(frob);
+		scope.callMethod({method:"rtm.auth.getToken", frob:frob}, function(param)
+			{
+				console.log(param);
+				callback(param.rsp.auth.token);
+			});
+	},
+	
+	getFrob: function(callback)
+	{
+		var handler = function(param)
 		{
-			callback.call(scope, data);
-			//console.log(textStatus);
+			callback(param.rsp.frob);
 		}
 		
-		this.nativeCall(url, paramsString, handler);
+		this.callMethod({method:"rtm.auth.getFrob"}, handler);
 	},
 	
-	jQueryCall: function(url, paramsString, handler)
+	getAuthURL: function(perms, callback, frob)
 	{
-		$.ajax(chrome.extension.getURL(url), {
-			async: true,
-			type: "GET",
-			data: paramsString,
-			success: handler,
-			error: function(some, textStatus, errorThrown)
-			{
-				console.log("error");
-				console.log(some);
-				console.log(textStatus);
-				console.log(errorThrown);
-			}
-		});
+		var url = this.RTM_URL_PREFIX + this.RTM_AUTH;
+		var scope = this;
+		var paramsString = scope.getParamsString({
+				frob:frob,
+				perms:perms
+			});
+		callback(url + "?" + paramsString);
+	},
+	
+	callMethod: function(params, callback)
+	{
+		var url = this.RTM_URL_PREFIX + this.RTM_REST;
+		var handler = function(data)
+		{
+			var responseObj = JSON.parse(data);
+			callback(responseObj);
+		}
 		
+		this.callMethodToURL(url, params, handler);
+	},
+
+	callMethodToURL: function(url, params, handler)
+	{
+		var paramsString = this.getParamsString(params);	
+		this.nativeCall(url, paramsString, handler, true);
 	},
 	
-	nativeCall: function(url, paramsString, handler)
+//	jQueryCall: function(url, paramsString, handler)
+//	{
+//		$.ajax(chrome.extension.getURL(url), {
+//			async: true,
+//			type: "GET",
+//			data: paramsString,
+//			success: handler,
+//			error: function(some, textStatus, errorThrown)
+//			{
+//				console.log("error");
+//				console.log(some);
+//				console.log(textStatus);
+//				console.log(errorThrown);
+//			}
+//		});
+//		
+//	},
+	
+	nativeCall: function(url, paramsString, handler, async)
 	{
+		console.log(url + "?" + paramsString);
+		
 		var request = new XMLHttpRequest();
-		request.onload = function(){
+		request.onload = function()//TODO: (2.medium) Handle errors;
+		{
 			handler(request.responseText);
 		};
-//		request.onreadystatechange 
-		request.open("GET", url + "?" + paramsString, true);
-		console.log(url + "?" + paramsString);
+		request.open("GET", url + "?" + paramsString, async);
 		request.send(null);		
 	},
 	
@@ -68,6 +121,7 @@ RtmAPI = {
 	getParamsString: function(params)
 	{
 		params.api_key = this.API_KEY;
+		params.format = "json";
 		var signature = this.getSignature(params);
 
 		params.api_sig = signature;

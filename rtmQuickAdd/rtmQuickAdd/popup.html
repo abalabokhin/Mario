@@ -3,21 +3,74 @@
 <script src="lib/md5.js"></script>
 <!--script src="lib/jquery-1.6.2.js"></script-->
 <script src="basish/rtmapi.js"></script>
-<div id="hi"></div>
+<div id="hi">none</div>
+<a href="javascript:doAuth()">try_to_auth</a><br/
+<a href="javascript:clearToken()">clear_token</a><br/>
+<a href="javascript:getFrob()">getFrob</a><br/>
+<a href="javascript:getToken()">getToken</a><br/>
+<a href="javascript:testLogin()">test_login</a>
 <script>	
-	
 	var hi = document.getElementById("hi");
-	hi.innerHTML = "usua";
+	var localToken = localStorage.getItem("auth_token");
 	
-	var handler = function(param)
+	var doAuth = function()
 	{
-		console.log("hi: " + param + " :bye.");
-		
-		hi.innerHTML = param;
+		var onGetUrl = function(authURL)
+		{
+			window.open(authURL);			
+		}
+		RtmAPI.getAuthURL("write", onGetUrl, localStorage.getItem("frob"));
+	};
+
+	var testLogin = function()
+	{
+		RtmAPI.testLogin(
+			localStorage.getItem("frob"),
+			localStorage.getItem("auth_token"),
+			function(param)
+			{
+				console.log("testLogin");
+				console.log(param);
+				alert(param);
+			}
+		);		
 	}
-	RtmAPI.callMethod({
-		method:"rtm.auth.getFrob",
-		format: "json"
-	}, handler, null);
+	
+	var clearToken = function()
+	{
+		hi.innerHTML = "";
+		localStorage.setItem("auth_token", "");
+	}
+	
+	var getFrob = function()
+	{
+		RtmAPI.getFrob(function(frob){
+			localStorage.setItem("frob", frob);
+			hi.innerHTML += "frob:" + frob + "<br/>";
+		});
+	}
+	var getToken = function()
+	{
+		RtmAPI.getToken( 
+			function(param)
+			{
+				console.log("getToken");
+				console.log(param);
+				localStorage.setItem("auth_token", param);
+				hi.innerHTML += "token:" + param;
+			}, localStorage.getItem("frob")
+		);
+	}
+	
+//	if(!localToken)
+//	{
+//		console.log("hi");
+//		getToken();
+//	}
+//	else
+//	{
+//		console.log(localToken);
+//	}
+	hi.innerHTML = localToken + "<br/>";
 </script>
 
