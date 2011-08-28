@@ -16,8 +16,7 @@
   ],
   "permissions": [
           "tabs",
-	  "http://www.rememberthemilk.com",
-	  "http://api.flickr.com/",
+	  "http://www.rememberthemilk.com/",
           "http://*/*"
   ]
 }
