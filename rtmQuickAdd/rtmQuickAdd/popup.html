@@ -13,7 +13,7 @@ makeCreateTaskHTML = function(taskTitle, taskUrl, taskDate) {
     var currDateStr = currDate.getDate() + "." + (currDate.getMonth() + 1) + "." + currDate.getFullYear();
     currDateStr = currDate.format("dd/mm/yy");
     var createTaskHTML = 
-"<form action=\"javascript:window.close()\">" +
+"<form action=\"javascript:onSubmit()\" id=\"mainForm\">" +
 "  Task title: <textarea name=\"taskTitle\">" + taskTitle + "</textarea> <br />" +
 "  URL: <input type=\"text\" name=\"taskUrl\" value=\"" + taskUrl + "\"/><br />" +
 "  Date: <input type=\"text\" name=\"taskDate\" value=\"" + currDateStr+ "\"/><br />" +
@@ -32,10 +32,29 @@ showSelectedAndURL = function(tab)
 };
 
 chrome.tabs.getSelected(undefined, showSelectedAndURL);
+
+onSubmitSuccessfully = function(result)
+{
+	console.log(result);
+	window.close();	
+}
+onSubmit = function()
+{
+	var form = document.getElementById("mainForm");
+//	console.log(form.taskTitle.value);
+	RtmAPI.callMethod({
+		method: "rtm.tasks.add",
+		frob: localStorage.getItem("frob"),
+		auth_token: localStorage.getItem("auth_token"),
+		timeline: 100000,
+		name: form.taskTitle.value + " " + form.taskUrl.value + " " + form.taskDate.value,
+		parse: true
+	}, onSubmitSuccessfully)
+}
 </script>
 <div id="hi">none</div>
 <a href="javascript:doAuth()">try_to_auth</a><br/
-<a href="javascript:clearToken()">clear_token</a><br/>
+<!--a href="javascript:clearToken()">clear_token</a><br//-->
 <a href="javascript:getFrob()">getFrob</a><br/>
 <a href="javascript:getToken()">getToken</a><br/>
 <a href="javascript:testLogin()">test_login</a>
