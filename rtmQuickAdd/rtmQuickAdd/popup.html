@@ -2,7 +2,38 @@
 </style>
 <script src="lib/md5.js"></script>
 <script src="basish/rtmapi.js"></script>
-<script>	
+<script src="lib/date.format.js"></script>
+<!--script>	
 	RtmAPI.callMethod({method:"rtm.auth.getFrob"}, function(param){console.log(param);}, RtmAPI);
+</script-->
+<div id ="qwe123">
+</div>
+
+<script>
+makeCreateTaskHTML = function(taskTitle, taskUrl, taskDate) {
+    var currDate = new Date();
+    var currDateStr = currDate.getDate() + "." + (currDate.getMonth() + 1) + "." + currDate.getFullYear();
+    currDateStr = currDate.format("dd/mm/yy");
+    var createTaskHTML = 
+"<form action=\"javascript:window.close()\">" +
+"  Task title: <textarea name=\"taskTitle\">" + taskTitle + "</textarea> <br />" +
+"  URL: <input type=\"text\" name=\"taskUrl\" value=\"" + taskUrl + "\"/><br />" +
+"  Date: <input type=\"text\" name=\"taskDate\" value=\"" + currDateStr+ "\"/><br />" +
+"  <input type=\"submit\" value=\"Submit\" />" +
+"</form>";
+
+  return createTaskHTML;
+};
+
+showSelectedAndURL = function(tab)
+{
+    var qwe123 = document.getElementById("qwe123");
+    chrome.tabs.sendRequest(tab.id, {action: "getDOM"}, function(response) {
+        qwe123.innerHTML += makeCreateTaskHTML(response.selected, tab.url, null);
+    });
+};
+
+chrome.tabs.getSelected(undefined, showSelectedAndURL);
+
 </script>
 
