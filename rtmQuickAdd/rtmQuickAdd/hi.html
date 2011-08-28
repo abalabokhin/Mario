@@ -12,12 +12,13 @@ img {
   height:75px;
 }
 </style>
-
 <script>
+	
 var req = new XMLHttpRequest();
 req.open(
     "GET",
- //   "http://www.rememberthemilk.com/services/rest/?" +
+//	"http://yandex.ru",
+//   "http://www.rememberthemilk.com/services/rest/?" +
     "http://api.flickr.com/services/rest/?" +
         "method=flickr.photos.search&" +
         "api_key=90485e931f687a9b9c2a66bf58a3861a&" +
@@ -31,13 +32,15 @@ req.onload = showPhotos;
 req.send(null);
 
 function showPhotos() {
-  var photos = req.responseXML.getElementsByTagName("photo");
-
-  for (var i = 0, photo; photo = photos[i]; i++) {
-    var img = document.createElement("image");
-    img.src = constructImageURL(photo);
-    document.body.appendChild(img);
-  }
+	console.log(req.responseText);
+	console.log(req.responseXML);
+//  var photos = req.responseXML.getElementsByTagName("photo");
+//
+//  for (var i = 0, photo; photo = photos[i]; i++) {
+//    var img = document.createElement("image");
+//    img.src = constructImageURL(photo);
+//    document.body.appendChild(img);
+//  }
 }
 
 // See: http://www.flickr.com/services/api/misc.urls.html

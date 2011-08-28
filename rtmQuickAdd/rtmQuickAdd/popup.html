@@ -1,8 +1,23 @@
 <style>
 </style>
 <script src="lib/md5.js"></script>
+<!--script src="lib/jquery-1.6.2.js"></script-->
 <script src="basish/rtmapi.js"></script>
+<div id="hi"></div>
 <script>	
-	RtmAPI.callMethod({method:"rtm.auth.getFrob"}, function(param){console.log(param);}, RtmAPI);
+	
+	var hi = document.getElementById("hi");
+	hi.innerHTML = "usua";
+	
+	var handler = function(param)
+	{
+		console.log("hi: " + param + " :bye.");
+		
+		hi.innerHTML = param;
+	}
+	RtmAPI.callMethod({
+		method:"rtm.auth.getFrob",
+		format: "json"
+	}, handler, null);
 </script>
 

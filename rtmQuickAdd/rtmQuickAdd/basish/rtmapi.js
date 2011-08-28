@@ -3,17 +3,44 @@ RtmAPI = {
 	callMethod: function(params, callback, scope)
 	{
 		var url = this.RTM_URL_PREFIX + this.RTM_REST;
+		var paramsString = this.getParamsString(params);
+		var handler = function(data, textStatus, response)
+		{
+			callback.call(scope, data);
+			//console.log(textStatus);
+		}
 		
-		var request = new XMLHttpRequest();
-		request.onload=function()
+		this.nativeCall(url, paramsString, handler);
+	},
+	
+	jQueryCall: function(url, paramsString, handler)
+	{
+		$.ajax(chrome.extension.getURL(url), {
+			async: true,
+			type: "GET",
+			data: paramsString,
+			success: handler,
+			error: function(some, textStatus, errorThrown)
 			{
-				console.log(request.responseText);
-					//callback.call(scope, request.responseText);
+				console.log("error");
+				console.log(some);
+				console.log(textStatus);
+				console.log(errorThrown);
 			}
-
-		request.open("GET", url + "?" + this.getParamsString(params), true);
-		console.log(url + "?" + this.getParamsString(params));
-		request.send(null);
+		});
+		
+	},
+	
+	nativeCall: function(url, paramsString, handler)
+	{
+		var request = new XMLHttpRequest();
+		request.onload = function(){
+			handler(request.responseText);
+		};
+//		request.onreadystatechange 
+		request.open("GET", url + "?" + paramsString, true);
+		console.log(url + "?" + paramsString);
+		request.send(null);		
 	},
 	
 	getSignature: function(params)
