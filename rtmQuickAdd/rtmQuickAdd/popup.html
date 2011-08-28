@@ -1,0 +1,8 @@
+<style>
+</style>
+<script src="lib/md5.js"></script>
+<script src="basish/rtmapi.js"></script>
+<script>	
+	RtmAPI.callMethod({method:"rtm.auth.getFrob"}, function(param){console.log(param);}, RtmAPI);
+</script>
+

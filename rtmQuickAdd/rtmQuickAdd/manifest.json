@@ -1,0 +1,14 @@
+{
+  "name": "RTM Quick Add",
+  "version": "1.0.0",
+  "description": "Add task to the RTM service",
+  "browser_action": {
+    "popup": "hi.html",
+    "default_icon": "favicon2.ico",
+	"default_title": "hi!"
+  },
+  "permissions": [
+	  "http://www.rememberthemilk.com",
+	  "http://api.flickr.com/"
+  ]
+}
