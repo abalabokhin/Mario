@@ -25,10 +25,14 @@ M.LayeredCanvas = new Class({
         if (!height)
             height = this.options.height;
 
-		var layer = new M.Display.Canvas(id, width, height, frameRate);
+	var layer = new M.Display.Canvas(id, width, height, frameRate);
         layer.inject(this.appDiv);
         this.layers[id] = layer;
         return layer;
+    },
+
+    getLayer : function (id) {
+        return this.layers[id];
     },
 
     move : function (id, deltaX, deltaY) {

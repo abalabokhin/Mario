@@ -1,11 +1,16 @@
 M.Helper.ns("M.Display");
 
 M.Display.Canvas = new Class({
+        width : 0,
+        height : 0,
+
 	initialize: function(id, width, height, frameRate)
-	{
+                {
+                this.width = width;
+                this.height = height;
 		var scope = this;
 		var el = new Element('canvas',  {
-			id: id,
+                        id: id,
 			width: width,
 			height: height,
 			styles: {
@@ -15,7 +20,7 @@ M.Display.Canvas = new Class({
 		var children = Array();
 		var interval;
 
-		var draw = function()
+		this.draw = function()
 		{
 			scope.getContext().clearRect(0, 0, width, height);
 			for(var i = 0; i < children.length; i++)
@@ -61,7 +66,7 @@ M.Display.Canvas = new Class({
 		}
 
 		if(frameRate)
-			interval = setInterval(draw, frameRate);
+			interval = setInterval(this.draw, frameRate);
 	},
 
 	inject : function(value)
@@ -92,5 +97,20 @@ M.Display.Canvas = new Class({
 	setY : function(value)
 	{
 		this.getElement().setStyle('top', value);
+	},
+
+        getWidth : function()
+        {
+		return this.width;
+        },
+
+        getHeight : function()
+        {
+		return this.height;
+        },
+
+	clear : function()
+	{
+		this.getContext().clearRect(0, 0, getWidth(), getHeight());
 	}
 });
